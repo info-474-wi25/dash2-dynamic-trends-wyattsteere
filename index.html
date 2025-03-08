@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Design Challenge 3</title>
     <script src="https://d3js.org/d3.v7.min.js"></script> <!-- Load D3 library -->
+    <script src="https://unpkg.com/d3-simple-slider"></script>
     <link rel="stylesheet" href="style.css"> <!-- Connect to style.css for styles -->
 </head>
 <body class="vertical-container">
@@ -17,12 +18,13 @@
     
     <!-- INTERACTIVE WIDGETS -->
     <div class="item horizontal-container">
-        <div class="item"><!-- Your widget 1 code goes here. -->
-            <!-- Widget 1 title -->
-            <!-- Widget 1 element -->
+        <div class="item">
+            <h3>Select Year Range</h3>
+            <div id="year-slider-container">
+                <div id="year-range"></div>
+                <div id="selected-range">Years: <span id="slider-range-value"></span></div>
+            </div>
         </div>
-
-        <!-- DELETE THE FOLLOWING DIV IF YOU ONLY HAVE 1 WIDGET. -->
     </div>
 
     <!-- CHART(S) -->

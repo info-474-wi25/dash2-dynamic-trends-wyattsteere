@@ -133,5 +133,34 @@ a:hover {
         margin-bottom: 0;
     }
 }
+/* Slider CSS */
+#year-slider-container {
+    width: 450px;
+    margin: 20px auto;
+    text-align: center;
+  }
+  
+  #year-range {
+    margin-bottom: 10px;
+  }
+  
+  #selected-range {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .tooltip {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    pointer-events: none;
+    font-size: 12px;
+  }
+  
+  .line {
+    transition: stroke-width 0.2s;
+  }
 
 /* CSS generated with assistance from ChatGPT and DeepSeek. */
