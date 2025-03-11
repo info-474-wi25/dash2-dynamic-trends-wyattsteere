@@ -135,19 +135,17 @@ a:hover {
 }
 /* Slider CSS */
 #year-slider-container {
-    width: 450px;
+    width: 550px;
     margin: 20px auto;
     text-align: center;
   }
   
-  #year-range {
-    margin-bottom: 10px;
-  }
-  
   #selected-range {
     font-weight: bold;
-    margin-top: 10px;
+    margin-top: 15px;
+    font-size: 16px;
   }
+  
   
   .tooltip {
     position: absolute;

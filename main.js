@@ -220,8 +220,8 @@ d3.csv("events.csv").then(data => {
         .style("margin", "0 auto");
     
     const sliderSvg = sliderDiv.append("svg")
-        .attr("width", 400)
-        .attr("height", 50);
+        .attr("width", 500)
+        .attr("height", 75);
     
     const sliderG = sliderSvg.append("g")
         .attr("transform", "translate(30,20)");
@@ -234,9 +234,11 @@ d3.csv("events.csv").then(data => {
     const slider = d3.sliderBottom(sliderScale)
         .min(minYear)
         .max(maxYear)
-        .width(340)
+        .width(400)
+
         .tickFormat(d3.format("d"))
         .ticks(Math.min(maxYear - minYear + 1, 10))
+        .tickPadding(10)
         .default([minYear, maxYear])
         .fill("#69b3a2")
         .on("onchange", val => {
