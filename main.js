@@ -11,7 +11,7 @@ const svgLine = d3.select("#lineChart1") // If you change this ID, you must chan
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
-//Tooltip 
+//Tooltip
 const tooltip = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0)
@@ -81,25 +81,17 @@ d3.csv("events.csv").then(data => {
         .x(d => x(d.year))
         .y(d => y(d.total));
 
-    // Create a group for the lines that will be updated
     const linesGroup = svgLine.append("g")
         .attr("class", "lines-group");
     
-    // Function to draw and update lines
     function updateChart() {
-        // Remove existing lines
         linesGroup.selectAll(".line").remove();
         
-        // Update flattened data based on current filter
         flattenedData = updateFlattenedData();
         
-        // Update x domain with filtered years
         x.domain(filteredYearlyData.map(d => d.ev_year));
-        
-        // Update y domain based on filtered data
         y.domain([0, d3.max(flattenedData, d => d.total)]);
         
-        // Draw lines with updated data
         linesGroup.selectAll(".line")
             .data(d3.groups(flattenedData, d => d.category))
             .enter().append("path")
@@ -112,11 +104,19 @@ d3.csv("events.csv").then(data => {
                 d3.select(this)
                     .style("stroke-width", 4);
                     
+                const [mouseX] = d3.pointer(event);
+                const years = x.domain(); 
+                const closestYear = years.reduce((prev, curr) => 
+                    Math.abs(x(curr) - mouseX) < Math.abs(x(prev) - mouseX) ? curr : prev
+                );
+                
+                const closestDataPoint = d[1].find(point => point.year === closestYear);
+                    
                 tooltip.transition()
                     .duration(200)
                     .style("opacity", .9);
                     
-                tooltip.html(`<strong>${d[0]}</strong>`)
+                tooltip.html(`<strong>${d[0]}</strong><br>Year: ${closestDataPoint.year}<br>Count: ${closestDataPoint.total}`)
                     .style("left", (event.pageX + 10) + "px")
                     .style("top", (event.pageY - 28) + "px");
             })
@@ -129,7 +129,7 @@ d3.csv("events.csv").then(data => {
                     .style("opacity", 0);
             });
             
-        // Update x-axis
+        // update x-axis
         svgLine.select(".x-axis")
             .transition()
             .duration(500)
@@ -138,7 +138,7 @@ d3.csv("events.csv").then(data => {
             .attr("transform", "rotate(-45)")
             .style("text-anchor", "end");
             
-        // Update y-axis
+        // update yaxis
         svgLine.select(".y-axis")
             .transition()
             .duration(500)
@@ -149,18 +149,28 @@ d3.csv("events.csv").then(data => {
             const legend = svgLine.append("g")
                 .attr("class", "legend")
                 .attr("transform", `translate(${width - 150}, 0)`);
-                
+            
+            
+            legend.append("rect")
+                .attr("width", 130) 
+                .attr("height", 75) 
+                .attr("fill", "white") 
+                .attr("stroke", "#ccc") 
+                .attr("stroke-width", 1) 
+                .attr("rx", 5) 
+                .attr("ry", 5);
+            
             const categories = ["Fatal Injuries", "Major Injuries", "Minor Injuries"];
             
             categories.forEach((category, i) => {
                 const legendRow = legend.append("g")
-                    .attr("transform", `translate(0, ${i * 20})`);
-                    
+                    .attr("transform", `translate(10, ${i * 20 + 10})`);
+                
                 legendRow.append("rect")
                     .attr("width", 15)
                     .attr("height", 15)
                     .attr("fill", color(category));
-                    
+                
                 legendRow.append("text")
                     .attr("x", 20)
                     .attr("y", 12.5)
@@ -201,14 +211,6 @@ d3.csv("events.csv").then(data => {
         .style("text-anchor", "middle")
         .text("Total Injuries");
 
-    // Add chart title
-    svgLine.append("text")
-        .attr("x", (width / 2))
-        .attr("y", 0 - (margin.top / 2))
-        .attr("text-anchor", "middle")
-        .style("font-size", "16px")
-        .style("text-decoration", "underline")
-        .text("Injury type by Year");
 
     // 7.a: ADD INTERACTIVITY FOR CHART 1
     const sliderContainer = d3.select("#year-range");
